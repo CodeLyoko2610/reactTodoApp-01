@@ -4,12 +4,38 @@ import './App.css';
 //import components
 import Todos from './components/Todos';
 
-function App() {
-  return (
-    <div className="App">
-      <Todos />
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    todos: [
+      {
+        id: 1,
+        title: "Focus when coding",
+        completed: false
+      },
+      {
+        id: 2,
+        title: "Plan ahead what to say",
+        completed: false
+      },
+      {
+        id: 3,
+        title: "Less social media, more active things",
+        completed: false
+      },
+    ]
+  }
+
+
+  render() {
+    console.log(this.state.todos); //Output information from the state
+
+    return (
+      <div className="App">
+        <Todos todos={this.state.todos} />
+        {/* Take information from state to component as a prop */}
+      </div>
+    )
+  }
 }
 
 export default App;

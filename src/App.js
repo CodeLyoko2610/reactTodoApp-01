@@ -32,9 +32,15 @@ class App extends React.Component {
         if (todo.id === id) {
           todo.completed = !todo.completed;
         }
-
         return todo;
       })
+    });
+  };
+
+  //Delete todo
+  delTodo = id => {
+    this.setState({
+      todos: [...this.state.todos.filter(todo => todo.id !== id)]
     });
   };
 
@@ -43,7 +49,11 @@ class App extends React.Component {
 
     return (
       <div className='App'>
-        <Todos todos={this.state.todos} markComplete={this.markComplete} />{' '}
+        <Todos
+          todos={this.state.todos}
+          markComplete={this.markComplete}
+          delTodo={this.delTodo}
+        />{' '}
         {/* Take information from state to component as a prop */}{' '}
       </div>
     );

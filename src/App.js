@@ -10,7 +10,7 @@ class App extends React.Component {
       {
         id: 1,
         title: 'Focus when coding',
-        completed: true
+        completed: false
       },
       {
         id: 2,
@@ -25,12 +25,25 @@ class App extends React.Component {
     ]
   };
 
+  //Toggle todo's complete
+  markComplete = id => {
+    this.setState({
+      todos: this.state.todos.map(todo => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+
+        return todo;
+      })
+    });
+  };
+
   render() {
-    console.log(this.state.todos); //Output information from the state
+    //console.log(this.state.todos); //Output information from the state
 
     return (
       <div className='App'>
-        <Todos todos={this.state.todos} />{' '}
+        <Todos todos={this.state.todos} markComplete={this.markComplete} />{' '}
         {/* Take information from state to component as a prop */}{' '}
       </div>
     );

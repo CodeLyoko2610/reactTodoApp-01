@@ -3,6 +3,7 @@ import './App.css';
 
 //import components
 import Todos from './components/Todos';
+import Header from './components/layouts/Header';
 
 class App extends React.Component {
   state = {
@@ -49,6 +50,7 @@ class App extends React.Component {
 
     return (
       <div className='App'>
+        <Header />
         <Todos
           todos={this.state.todos}
           markComplete={this.markComplete}

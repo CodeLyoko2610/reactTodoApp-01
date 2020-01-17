@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import uuid from 'uuid';
 
 //import components
 import Todos from './components/Todos';
@@ -10,17 +11,17 @@ class App extends React.Component {
   state = {
     todos: [
       {
-        id: 1,
+        id: uuid.v4(),
         title: 'Focus when coding',
         completed: false
       },
       {
-        id: 2,
+        id: uuid.v4(),
         title: 'Plan ahead what to say',
         completed: false
       },
       {
-        id: 3,
+        id: uuid.v4(),
         title: 'Less social media, more active things',
         completed: false
       }
@@ -46,6 +47,19 @@ class App extends React.Component {
     });
   };
 
+  //Add todo
+  addTodo = title => {
+    let newTodo = {
+      id: uuid.v4(),
+      title,
+      completed: false
+    };
+
+    this.setState({
+      todos: [...this.state.todos, newTodo]
+    });
+  };
+
   render() {
     //console.log(this.state.todos); //Output information from the state
 
@@ -53,7 +67,7 @@ class App extends React.Component {
       <div className='App'>
         <div className='container'>
           <Header />
-          <AddTodo />
+          <AddTodo addTodo={this.addTodo} />
           <Todos
             todos={this.state.todos}
             markComplete={this.markComplete}

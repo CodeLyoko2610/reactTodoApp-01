@@ -11,9 +11,17 @@ export default class AddTodo extends React.Component {
     });
   };
 
+  onSubmit = e => {
+    e.preventDefault();
+    this.props.addTodo(this.state.title);
+    this.setState({
+      title: ''
+    });
+  };
+
   render() {
     return (
-      <form style={{ display: 'flex' }}>
+      <form style={{ display: 'flex' }} onSubmit={this.onSubmit}>
         <input
           type='text'
           name='title'

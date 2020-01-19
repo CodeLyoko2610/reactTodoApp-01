@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import uuid from 'uuid';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import axios from 'axios';
 
 //import components
 import About from './components/pages/About';
@@ -11,24 +12,20 @@ import AddTodo from './components/AddTodo';
 
 class App extends React.Component {
   state = {
-    todos: [
-      {
-        id: uuid.v4(),
-        title: 'Focus when coding',
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: 'Plan ahead what to say',
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: 'Less social media, more active things',
-        completed: false
-      }
-    ]
+    todos: []
   };
+
+  //Get todos from the "fake server" once the component is mounted
+  //componentDidMount() is a lifecycle method, just like render()
+  componentDidMount() {
+    axios
+      .get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      .then(res => {
+        this.setState({
+          todos: res.data
+        });
+      });
+  }
 
   //Toggle todo's complete
   markComplete = id => {
@@ -44,22 +41,30 @@ class App extends React.Component {
 
   //Delete todo
   delTodo = id => {
-    this.setState({
-      todos: [...this.state.todos.filter(todo => todo.id !== id)]
-    });
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      .then(res => {
+        this.setState({
+          todos: [...this.state.todos.filter(todo => todo.id !== id)]
+        });
+      });
   };
 
   //Add todo
+  //NOTICE: due to jsonplaceholder api settings, id is automatically changed to 201, even though set differently
+  //Will cause problem when add new todos (same id) and delete todos (todos with same id deleted)
   addTodo = title => {
-    let newTodo = {
-      id: uuid.v4(),
-      title,
-      completed: false
-    };
-
-    this.setState({
-      todos: [...this.state.todos, newTodo]
-    });
+    axios
+      .post('https://jsonplaceholder.typicode.com/todos', {
+        id: uuid.v4(),
+        title,
+        completed: false
+      })
+      .then(res => {
+        this.setState({
+          todos: [...this.state.todos, res.data]
+        });
+      });
   };
 
   render() {
